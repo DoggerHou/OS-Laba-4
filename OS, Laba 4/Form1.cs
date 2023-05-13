@@ -16,22 +16,21 @@ namespace OS__Laba_4
     public partial class Form1 : Form
     {
         bool flag = true;
-        int[] array = new int[10];
-
-        public System.EventHandler obs;
-
+        myArray massiv;
 
         public Form1()
         {
             InitializeComponent();
-
-            Random rnd = new Random();
-            for (int i = 0; i < 10; i++)
-                array[i] = rnd.Next(0, 99);
-
-            label1.Text = Array_to_String(array);
+            massiv = new myArray();
+            massiv.observers += new System.EventHandler(this.UpdateFromModel);
+            massiv.observers.Invoke(this, null);
         }
 
+
+        private void UpdateFromModel(object sender, EventArgs e)
+        {
+            label1.Text = Array_to_String(massiv.arr);
+        }
 
         private void checkBox1_CheckedChanged(object sender, EventArgs e)
         {
@@ -42,14 +41,33 @@ namespace OS__Laba_4
 
         private void Form1_Paint(object sender, PaintEventArgs e)
         {
-            Thread inc = new Thread(IncreaseSort);
             Thread dec = new Thread(DescendeSort);
-
-            //inc.Start();
+            Thread inc = new Thread(IncreaseSort);
             dec.Start();
-            label1.Text = Array_to_String(array);
         }
 
+        public void DescendeSort()
+        {
+            for (int i = 0; i < 10; i++)
+                for (int j = 0; j < 10; j++)
+                    if (massiv.arr[i] > massiv.arr[j])
+                    {
+                        (massiv.arr[i], massiv.arr[j]) = (massiv.arr[j], massiv.arr[i]);
+                    }
+            massiv.observers.Invoke(this, null);
+        }
+
+
+        public void IncreaseSort()
+        {
+            for (int i = 0; i < 10; i++)
+                for (int j = 0; j < 10; j++)
+                    if (massiv.arr[i] < massiv.arr[j])
+                    {
+                        (massiv.arr[i], massiv.arr[j]) = (massiv.arr[j], massiv.arr[i]);
+                    }
+            massiv.observers.Invoke(this, null);
+        }
 
 
         private string Array_to_String(int[] arr)
@@ -58,32 +76,6 @@ namespace OS__Laba_4
             foreach (int i in arr)
                 s += i.ToString() + "  ";
             return s;
-        }
-
-
-
-        private void DescendeSort()
-        {
-            for (int i = 0; i < 10; i++)
-                for (int j = 0; j < 10; j++)
-                    if (array[i] > array[j])
-                    {
-                        (array[i], array[j]) = (array[j], array[i]);
-                        wait(200);
-                    }
-            //label1.Text = Array_to_String(array);
-        }
-
-
-        private void IncreaseSort()
-        {
-            for (int i = 0; i < 10; i++)
-                for (int j = 0; j < 10; j++)
-                    if (array[i] < array[j])
-                    {
-                        (array[i], array[j]) = (array[j], array[i]);
-                        wait(200);
-                    }
         }
 
 
@@ -107,9 +99,45 @@ namespace OS__Laba_4
                 Application.DoEvents();
             }
         }
-        private void UpdateFromModel(object sender, EventArgs e)
+    }
+
+
+
+    public class myArray
+    {
+        public int[] arr;
+        public System.EventHandler observers;
+
+        public myArray()
         {
-            label1.Text = Array_to_String(array);
+            arr = new int[10];
+            Random rnd = new Random();
+            for (int i = 0; i < 10; i++)
+                arr[i] = rnd.Next(0, 99);
+        }
+
+
+        public void DescendeSort1()
+        {
+            for (int i = 0; i < 10; i++)
+                for (int j = 0; j < 10; j++)
+                    if (arr[i] > arr[j])
+                    {
+                        (arr[i], arr[j]) = (arr[j], arr[i]);
+                    }
+            observers.Invoke(this, null);
+        }
+
+
+        public void IncreaseSort1()
+        {
+            for (int i = 0; i < 10; i++)
+                for (int j = 0; j < 10; j++)
+                    if (arr[i] < arr[j])
+                    {
+                        (arr[i], arr[j]) = (arr[j], arr[i]);
+                    }
+            observers.Invoke(this, null);
         }
     }
 }
