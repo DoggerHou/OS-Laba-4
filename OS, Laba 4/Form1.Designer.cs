@@ -49,9 +49,9 @@ namespace OS__Laba_4
             this.checkBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.checkBox1.Location = new System.Drawing.Point(330, 287);
             this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(293, 29);
+            this.checkBox1.Size = new System.Drawing.Size(287, 29);
             this.checkBox1.TabIndex = 1;
-            this.checkBox1.Text = "Отменить махач за потоки";
+            this.checkBox1.Text = "Отменить драку за потоки";
             this.checkBox1.UseVisualStyleBackColor = true;
             this.checkBox1.CheckedChanged += new System.EventHandler(this.checkBox1_CheckedChanged);
             // 
